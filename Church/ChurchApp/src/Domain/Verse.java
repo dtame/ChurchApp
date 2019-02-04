@@ -9,12 +9,11 @@ package Domain;
  *
  * @author dtame
  */
-public class Verse extends BaseContent{
+public class Verse implements IBaseContent{
     String Book;
     int Chapter;
     String Text;
     
-    @Override
     public int GetContentType(){
         return ContentType.BIBLE;
     }

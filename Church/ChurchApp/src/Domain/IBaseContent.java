@@ -9,8 +9,6 @@ package Domain;
  *
  * @author dtame
  */
-public abstract class BaseContent {
-    public int GetContentType(){
-        return 0;
-    };
+public interface IBaseContent {
+    int GetContentType();
 }
