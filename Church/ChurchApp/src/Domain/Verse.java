@@ -7,12 +7,54 @@ package Domain;
 
 /**
  *
- * @author dtame
+ * @author dtame 
  */
 public class Verse extends BaseContent{
-    String Book;
-    int Chapter;
-    String Text;
+
+    /**
+     * @return the Book
+     */
+    public String getBook() {
+        return Book;
+    }
+
+    /**
+     * @param Book the Book to set
+     */
+    public void setBook(String Book) {
+        this.Book = Book;
+    }
+
+    /**
+     * @return the Chapter
+     */
+    public int getChapter() {
+        return Chapter;
+    }
+
+    /**
+     * @param Chapter the Chapter to set
+     */
+    public void setChapter(int Chapter) {
+        this.Chapter = Chapter;
+    }
+
+    /**
+     * @return the Text
+     */
+    public String getText() {
+        return Text;
+    }
+
+    /**
+     * @param Text the Text to set
+     */
+    public void setText(String Text) {
+        this.Text = Text;
+    }
+    private String Book;
+    private int Chapter;
+    private String Text;
     
     @Override
     public int GetContentType(){
