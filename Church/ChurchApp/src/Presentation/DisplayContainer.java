@@ -5,7 +5,7 @@
  */
 package Presentation;
 
-import Domain.BaseContent;
+import Domain.IBaseContent;
 import java.util.List;
 
 /**
@@ -13,13 +13,13 @@ import java.util.List;
  * @author dtame
  */
 public class DisplayContainer {
-    private List<BaseContent> DataPipeline ;
+    private List<IBaseContent> DataPipeline ;
     
-    public void AddContent(BaseContent content){
+    public void AddContent(IBaseContent content){
         DataPipeline.add(content);
     }
     
-    public void remove(BaseContent content){
+    public void remove(IBaseContent content){
         DataPipeline.remove(content);
     }
 }

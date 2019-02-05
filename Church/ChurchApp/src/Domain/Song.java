@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author dtame
  */
-public class Song extends BaseContent{
+public class Song implements IBaseContent{
 
     /**
      * @return the Id
@@ -64,7 +64,6 @@ public class Song extends BaseContent{
         }
     }
     
-    @Override
     public int GetContentType(){
         return ContentType.SONG;
     }
