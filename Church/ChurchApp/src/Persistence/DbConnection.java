@@ -13,13 +13,12 @@ import java.sql.SQLException;
  *
  * @author dtame
  */
-public class DbConnection {
-    private static final String connectionString = "jdbc:derby://localhost:1527/ChurchDB;user=su;password=key01";
+public class DbConnection {    
     private static Connection dbConnection = null;
     public static Connection GetInstance(){
         try {
             if(dbConnection == null){
-                dbConnection = DriverManager.getConnection(connectionString);
+                dbConnection = DriverManager.getConnection("jdbc:derby://localhost:1527/ChurchDB", "su", "key01");
             }            
         } catch(SQLException ex){            
         }

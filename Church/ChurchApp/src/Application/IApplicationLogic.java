@@ -7,6 +7,7 @@ package Application;
 
 import Domain.Song;
 import Domain.Verse;
+import Presentation.VerseViewModel;
 import java.util.List;
 
 /**
@@ -14,7 +15,6 @@ import java.util.List;
  * @author dtame
  */
 public interface IApplicationLogic {
-    Verse SingleVerseSearch(String key);
-    List<Verse> MultipleVerseSearch(List<String> keys);
+    List<Verse> VerseSearch(VerseViewModel model);    
     Song SingleSongSerach(String key);
 }

@@ -10,58 +10,69 @@ package Domain;
  * @author dtame 
  */
 public class Verse implements IBaseContent{
-    String Book;
-    int Chapter;
-    String Text;
-  
-public class Verse extends BaseContent{
+       private int VerseId;
 
     /**
      * @return the Book
      */
     public String getBook() {
-        return Book;
+        return book;
     }
 
     /**
      * @param Book the Book to set
      */
     public void setBook(String Book) {
-        this.Book = Book;
+        this.book = Book;
     }
 
     /**
      * @return the Chapter
      */
     public int getChapter() {
-        return Chapter;
+        return chapter;
     }
 
     /**
      * @param Chapter the Chapter to set
      */
     public void setChapter(int Chapter) {
-        this.Chapter = Chapter;
+        this.chapter = Chapter;
     }
 
     /**
      * @return the Text
      */
     public String getText() {
-        return Text;
+        return text;
     }
 
     /**
      * @param Text the Text to set
      */
     public void setText(String Text) {
-        this.Text = Text;
+        this.text = Text;
     }
-    private String Book;
-    private int Chapter;
-    private String Text;
+    private String book;
+    private int chapter;
+    private String text;
     
+    @Override
     public int GetContentType(){
         return ContentType.BIBLE;
+    }
+
+    /**
+     * @return the VerseId
+     */
+    public int getVerseId() {
+        return VerseId;
+    }
+
+    /**
+     * @param VerseId the VerseId to set
+     */
+    public void setVerseId(int VerseId) {
+        this.VerseId = VerseId;
     }
 }

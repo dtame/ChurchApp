@@ -5,17 +5,28 @@
  */
 package Views;
 
+import Application.ApplicationLogic;
+import Application.IApplicationLogic;
+import Domain.Verse;
+import Persistence.Repository;
+import Presentation.VerseViewModel;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 
 /**
  *
  * @author dtame
  */
 public class BiblePane extends javax.swing.JPanel {
-
+    IApplicationLogic logic = new ApplicationLogic();
+    DefaultListModel bibleListModel = new DefaultListModel();
     /**
      * Creates new form BiblePane
      */
@@ -26,11 +37,11 @@ public class BiblePane extends javax.swing.JPanel {
         bibleScrollPane.setPreferredSize(new Dimension(650, 400));
         buttonPanel.setPreferredSize(new Dimension(120,150));
         
-        JButton btn1 = new JButton("Display");
-        JButton btn2 = new JButton("Save in playlist");
-        
-        buttonPanel.add(btn1);
-        buttonPanel.add(btn2);
+        displayButton.setEnabled(false);
+        saveButton.setEnabled(false);
+        //buttonPanel.add(btn1);
+        //buttonPanel.add(btn2);
+        verseList.setModel(bibleListModel);
     }
 
     /**
@@ -41,12 +52,15 @@ public class BiblePane extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         searchField = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         bibleScrollPane = new javax.swing.JScrollPane();
         verseList = new javax.swing.JList<>();
         buttonPanel = new javax.swing.JPanel();
+        displayButton = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder("Bible "));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
@@ -58,34 +72,73 @@ public class BiblePane extends javax.swing.JPanel {
         });
         add(searchField);
 
-        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.X_AXIS));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        verseList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        bibleScrollPane.setMaximumSize(new java.awt.Dimension(0, 0));
+
         bibleScrollPane.setViewportView(verseList);
 
-        jPanel1.add(bibleScrollPane);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 24;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.2;
+        jPanel1.add(bibleScrollPane, gridBagConstraints);
 
-        buttonPanel.setLayout(new javax.swing.BoxLayout(buttonPanel, javax.swing.BoxLayout.Y_AXIS));
-        jPanel1.add(buttonPanel);
+        buttonPanel.setMaximumSize(new java.awt.Dimension(0, 0));
+        buttonPanel.setPreferredSize(new java.awt.Dimension(70, 23));
+        buttonPanel.setLayout(new java.awt.GridBagLayout());
+
+        displayButton.setText("Display");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        buttonPanel.add(displayButton, gridBagConstraints);
+
+        saveButton.setText("Save");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        buttonPanel.add(saveButton, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        jPanel1.add(buttonPanel, gridBagConstraints);
 
         add(jPanel1);
     }// </editor-fold>//GEN-END:initComponents
-
+       
     private void searchFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            JOptionPane.showMessageDialog(null, "tests");
+            
+            bibleListModel.removeAllElements();
+            String regex = "([1-3]\\s|[1-3])?[A-Za-z]{3,20}\\s[1-9]{1,3}[:][1-9]{1,3}([-][1-9]{1,3})?";            
+            if( searchField.getText().matches(regex)){
+                //JOptionPane.showMessageDialog(null, "text match the regex");
+                VerseViewModel searchModel = Helper.ConvertToVerse(searchField.getText());
+                List<Verse> verseReceived = logic.VerseSearch(searchModel);
+                if (!verseReceived.isEmpty()){                                                                                                                                                                        
+                List<String> returnedVerseText = verseReceived.stream().map(x -> x.getText()).collect(Collectors.toList());                
+                returnedVerseText.forEach((item) -> {
+                    bibleListModel.addElement(item);
+                });                
+                } else{
+                   JOptionPane.showMessageDialog(null, "No verse found.");
+                   displayButton.setEnabled(false);
+                   saveButton.setEnabled(false);
+                }
+            }
         }
     }//GEN-LAST:event_searchFieldKeyPressed
 
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane bibleScrollPane;
     private javax.swing.JPanel buttonPanel;
+    private javax.swing.JButton displayButton;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton saveButton;
     private javax.swing.JTextField searchField;
     private javax.swing.JList<String> verseList;
     // End of variables declaration//GEN-END:variables
