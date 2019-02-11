@@ -22,11 +22,6 @@ public class Repository {
         try {
             List<Verse> verses = new ArrayList<>();
             
-//            String query = "select book.\"NAME\", bible.CHAPTERNO, bible.VERSENO, bible.versetext from bibledb_kjv as bible"
-//                           + " join bibledb_kjv_book as book on bible.BOOKID = book.ID"
-//                           + " where book.\"NAME\" LIKE ? " 
-//                           + " and bible.CHAPTERNO = ? "
-//                           + " and bible.VERSENO < ? and bible.VERSENO > ?";
             Boolean multipleVerseQuery = false;
             String query = "select book.\"NAME\", bible.CHAPTERNO, bible.VERSENO, bible.versetext from bibledb_kjv as bible"
                            + " join bibledb_kjv_book as book on bible.BOOKID = book.ID"

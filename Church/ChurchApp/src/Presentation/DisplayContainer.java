@@ -6,6 +6,7 @@
 package Presentation;
 
 import Domain.IBaseContent;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,13 +14,13 @@ import java.util.List;
  * @author dtame
  */
 public class DisplayContainer {
-    private List<IBaseContent> DataPipeline ;
+    private static final List<IBaseContent> DataPipeline = new ArrayList<>();
     
-    public void AddContent(IBaseContent content){
+    public static void AddContent(IBaseContent content){
         DataPipeline.add(content);
     }
     
-    public void remove(IBaseContent content){
+    public static void remove(IBaseContent content){
         DataPipeline.remove(content);
     }
 }

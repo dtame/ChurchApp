@@ -8,17 +8,17 @@ package Views;
 import Application.ApplicationLogic;
 import Application.IApplicationLogic;
 import Domain.Verse;
-import Persistence.Repository;
+import Presentation.DisplayContainer;
+import Presentation.VerseRenderer;
 import Presentation.VerseViewModel;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -39,9 +39,26 @@ public class BiblePane extends javax.swing.JPanel {
         
         displayButton.setEnabled(false);
         saveButton.setEnabled(false);
-        //buttonPanel.add(btn1);
-        //buttonPanel.add(btn2);
+        verseList.setCellRenderer(new VerseRenderer());        
         verseList.setModel(bibleListModel);
+        verseList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        verseList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                 if(!e.getValueIsAdjusting()){
+                     Verse selectedVerse = verseList.getSelectedValue();
+                     if(selectedVerse != null){
+                        displayButton.setEnabled(true);
+                        saveButton.setEnabled(true);
+                     }else{
+                        displayButton.setEnabled(false);
+                        saveButton.setEnabled(false);
+                        
+                        verseList.clearSelection();
+                     }
+                 }
+            }
+        });
     }
 
     /**
@@ -90,6 +107,11 @@ public class BiblePane extends javax.swing.JPanel {
         buttonPanel.setLayout(new java.awt.GridBagLayout());
 
         displayButton.setText("Display");
+        displayButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                displayButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         buttonPanel.add(displayButton, gridBagConstraints);
@@ -109,19 +131,15 @@ public class BiblePane extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
        
     private void searchFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){            
             bibleListModel.removeAllElements();
             String regex = "([1-3]\\s|[1-3])?[A-Za-z]{3,20}\\s[1-9]{1,3}[:][1-9]{1,3}([-][1-9]{1,3})?";            
             if( searchField.getText().matches(regex)){
                 //JOptionPane.showMessageDialog(null, "text match the regex");
                 VerseViewModel searchModel = Helper.ConvertToVerse(searchField.getText());
                 List<Verse> verseReceived = logic.VerseSearch(searchModel);
-                if (!verseReceived.isEmpty()){                                                                                                                                                                        
-                List<String> returnedVerseText = verseReceived.stream().map(x -> x.getText()).collect(Collectors.toList());                
-                returnedVerseText.forEach((item) -> {
-                    bibleListModel.addElement(item);
-                });                
+                if (!verseReceived.isEmpty()){                                                                                                                                                                                        
+                    verseReceived.forEach((item) -> { bibleListModel.addElement(item); });                
                 } else{
                    JOptionPane.showMessageDialog(null, "No verse found.");
                    displayButton.setEnabled(false);
@@ -131,8 +149,16 @@ public class BiblePane extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_searchFieldKeyPressed
 
-    
-
+    private void displayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayButtonActionPerformed
+        // TODO add your handling code here:
+        Verse selectedVerse = verseList.getSelectedValue();
+        if(selectedVerse != null){
+            DisplayPanel displayer = DisplayPanel.Get();
+            displayer.Display(selectedVerse);
+        }
+        //DisplayContainer.AddContent(verseList.getSelectedValue());
+    }//GEN-LAST:event_displayButtonActionPerformed
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane bibleScrollPane;
     private javax.swing.JPanel buttonPanel;
@@ -140,6 +166,6 @@ public class BiblePane extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton saveButton;
     private javax.swing.JTextField searchField;
-    private javax.swing.JList<String> verseList;
+    private javax.swing.JList<Verse> verseList;
     // End of variables declaration//GEN-END:variables
 }

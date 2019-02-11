@@ -9,6 +9,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -19,7 +20,7 @@ import javax.swing.JPanel;
 /**
  *
  * @author dtame
- */
+ */ 
 public class Home extends javax.swing.JFrame {
 
     /**
@@ -27,10 +28,11 @@ public class Home extends javax.swing.JFrame {
      */
     public Home() {
         initComponents();
-        this.setLocationRelativeTo(null);        
+        this.CenterFrame();
+        
         JPanel contentPanel = new JPanel();
         contentPanel.setSize(0, 400);
-        //contentPanel.add(new JLabel("test"));
+        
         backPanel.add(contentPanel);
         
         JPanel biblePanel = new BiblePane(); //new JPanel();
@@ -41,7 +43,7 @@ public class Home extends javax.swing.JFrame {
         biblePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         worshipPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        contentPanel.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
                                         
         CardLayout layout = new CardLayout();        
         contentPanel.setLayout(layout);
@@ -62,6 +64,10 @@ public class Home extends javax.swing.JFrame {
         worshipMenu.add(openWorshipMenuItem);
     }
 
+    private void CenterFrame(){
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -87,6 +93,11 @@ public class Home extends javax.swing.JFrame {
         configurationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Display"));
 
         displayButton.setText("Display");
+        displayButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                displayButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout configurationPanelLayout = new javax.swing.GroupLayout(configurationPanel);
         configurationPanel.setLayout(configurationPanelLayout);
@@ -131,15 +142,16 @@ public class Home extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void displayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_displayButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    
+    /*public static void main(String args[]) {
+      
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -151,18 +163,17 @@ public class Home extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
-        /* Create and display the form */
+      
         java.awt.EventQueue.invokeLater(() -> {
             new Home().setVisible(true);
         });
-    }
+    } */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel backPanel;
