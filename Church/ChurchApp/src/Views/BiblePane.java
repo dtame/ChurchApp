@@ -7,6 +7,7 @@ package Views;
 
 import Application.ApplicationLogic;
 import Application.IApplicationLogic;
+import Domain.IBaseContent;
 import Domain.Verse;
 import Presentation.DisplayContainer;
 import Presentation.VerseRenderer;
@@ -133,9 +134,8 @@ public class BiblePane extends javax.swing.JPanel {
     private void searchFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){            
             bibleListModel.removeAllElements();
-            String regex = "([1-3]\\s|[1-3])?[A-Za-z]{3,20}\\s[1-9]{1,3}[:][1-9]{1,3}([-][1-9]{1,3})?";            
-            if( searchField.getText().matches(regex)){
-                //JOptionPane.showMessageDialog(null, "text match the regex");
+            String regex = "([1-3]\\s|[1-3])?[A-Za-z]{3,20}\\s[0-9]{1,3}[:][0-9]{1,3}([-][0 -9]{1,3})?";            
+            if( searchField.getText().matches(regex)){                
                 VerseViewModel searchModel = Helper.ConvertToVerse(searchField.getText());
                 List<Verse> verseReceived = logic.VerseSearch(searchModel);
                 if (!verseReceived.isEmpty()){                                                                                                                                                                                        
@@ -145,16 +145,20 @@ public class BiblePane extends javax.swing.JPanel {
                    displayButton.setEnabled(false);
                    saveButton.setEnabled(false);
                 }
+            }else{
+                JOptionPane.showMessageDialog(null, "Invalid input");
             }
         }
     }//GEN-LAST:event_searchFieldKeyPressed
 
     private void displayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayButtonActionPerformed
         // TODO add your handling code here:
-        Verse selectedVerse = verseList.getSelectedValue();
+        List<Verse> selectedVerse = verseList.getSelectedValuesList();
         if(selectedVerse != null){
             DisplayPanel displayer = DisplayPanel.Get();
-            displayer.Display(selectedVerse);
+            displayer.SetDisplayStrategy(new DisplayVerseStrategy());
+            List<? extends IBaseContent> content = selectedVerse;
+            displayer.Display((List<IBaseContent>) content);
         }
         //DisplayContainer.AddContent(verseList.getSelectedValue());
     }//GEN-LAST:event_displayButtonActionPerformed

@@ -7,9 +7,13 @@ package Views;
 
 import Domain.IBaseContent;
 import Domain.Verse;
+import Views.Contract.DisplayContentStrategy;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,15 +25,14 @@ import javax.swing.SwingConstants;
  */
 public class DisplayPanel extends javax.swing.JFrame{
     private static DisplayPanel instance;
+    private static DisplayContentStrategy displayStragegy;
     
     private DisplayPanel(){}
     
     public static DisplayPanel Get(){
         if(instance == null){
             instance = new DisplayPanel();
-            instance.setLayout(null);
-            instance.setUndecorated(true);
-            //instance.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+            instance.setLayout(new GridBagLayout());        
         }        
         return instance;
     }
@@ -39,21 +42,14 @@ public class DisplayPanel extends javax.swing.JFrame{
         instance.setVisible((false));
     }
     
+    public void SetDisplayStrategy(DisplayContentStrategy strategy){
+        displayStragegy = strategy;
+    }
     public void Display(IBaseContent content){
-        if(content instanceof Verse){
-            JLabel background = new JLabel(new ImageIcon(getClass().getResource("/Presentation/images/default.jpg")));
-            background.setText(((Verse) content).getBook() +" "+((Verse) content).getChapter()+": "+((Verse) content).getVerseId());
-            background.setOpaque(false);
-            instance.setContentPane(background);
-            //Container cont = instance.getContentPane();
-            instance.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            //JLabel title = new JLabel(((Verse) content).getBook() +" "+((Verse) content).getChapter()+": "+((Verse) content).getVerseId());
-            //JLabel text = new JLabel(((Verse) content).getText(), SwingConstants.CENTER);
-            
-            //instance.getContentPane().add(title, BorderLayout.NORTH);
-            //instance.getContentPane().add(text, BorderLayout.CENTER);
-            //instance.add(text);
-            instance.setVisible(true);
-        }
+        displayStragegy.Display(this, content);                
+    }
+    
+    public void Display(List<? extends IBaseContent> content){
+        displayStragegy.Display(this, (List<IBaseContent>) content);
     }
 }
