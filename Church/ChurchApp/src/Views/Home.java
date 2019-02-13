@@ -6,13 +6,11 @@
 package Views;
 
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
@@ -36,19 +34,24 @@ public class Home extends javax.swing.JFrame {
         backPanel.add(contentPanel);
         
         JPanel biblePanel = new BiblePane(); //new JPanel();
-        JPanel worshipPanel = new WorshipPanel(); //new JPanel();   
+        JPanel worshipPanel = new WorshipPanel(); //new JPanel();  
+        JPanel announcementPanel = new AnnouncementPanel();
+        
         biblePanel.setMaximumSize(new Dimension(0, 400));
         worshipPanel.setMaximumSize(new Dimension(450, 400));                        
+        announcementPanel.setMaximumSize(new Dimension(450, 400)); 
         
         biblePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         worshipPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
+        announcementPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
                                         
         CardLayout layout = new CardLayout();        
         contentPanel.setLayout(layout);
         contentPanel.add("biblePanel", biblePanel);
-        contentPanel.add("worshipPanel", worshipPanel);               
+        contentPanel.add("worshipPanel", worshipPanel);   
+        contentPanel.add("announcementPanel", announcementPanel);   
         
         JMenuItem openBibleMenuItem = new JMenuItem("Open");
         openBibleMenuItem.addActionListener((ActionEvent e) -> {                        
@@ -60,8 +63,14 @@ public class Home extends javax.swing.JFrame {
             layout.show(contentPanel, "worshipPanel");
         });
         
+        JMenuItem openAnnouncementMenuItem = new JMenuItem("Open");
+        openWorshipMenuItem.addActionListener((ActionEvent e) -> {           
+            layout.show(contentPanel, "announcementPanel");
+        });
+        
         bibleMenu.add(openBibleMenuItem);
         worshipMenu.add(openWorshipMenuItem);
+        announcementMenu.add(openAnnouncementMenuItem);
     }
 
     private void CenterFrame(){
@@ -83,6 +92,7 @@ public class Home extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         bibleMenu = new javax.swing.JMenu();
         worshipMenu = new javax.swing.JMenu();
+        announcementMenu = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Church App");
@@ -125,6 +135,9 @@ public class Home extends javax.swing.JFrame {
 
         worshipMenu.setText("Worship");
         menuBar.add(worshipMenu);
+
+        announcementMenu.setText("Announcement");
+        menuBar.add(announcementMenu);
 
         setJMenuBar(menuBar);
 
@@ -176,6 +189,7 @@ public class Home extends javax.swing.JFrame {
     } */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu announcementMenu;
     private javax.swing.JPanel backPanel;
     private javax.swing.JMenu bibleMenu;
     private javax.swing.JPanel configurationPanel;

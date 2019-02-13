@@ -65,6 +65,7 @@ public class DisplayVerseStrategy implements DisplayContentStrategy {
             //title.setHorizontalAlignment(JLabel.NORTH);
             
             String textStr = "<html>";
+            textStr = textStr + "<p>"+titleStr+"</p>";
             for(IBaseContent vrs : content){
                 textStr = textStr 
                         +" "+((Verse)vrs).getVerseId()+"-"

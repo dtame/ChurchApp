@@ -5,6 +5,7 @@
  */
 package Application;
 
+import Domain.Announcement;
 import Domain.Song;
 import Domain.Verse;
 import Persistence.Repository;
@@ -26,6 +27,21 @@ public class ApplicationLogic implements IApplicationLogic{
     @Override
     public Song SingleSongSerach(String key) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Announcement SaveAnnouncement(Announcement announce) {
+        return repo.SaveAnnouncement(announce);
+    }
+
+    @Override
+    public Boolean DeleteAnnouncement(Announcement announce) {
+        return repo.DeleteAnnouncement(announce);
+    }
+
+    @Override
+    public List<Announcement> AnnouncementSearch(String key) {
+        return repo.AnnouncementSearch(key);
     }
     
 }

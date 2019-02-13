@@ -12,6 +12,7 @@ package Domain;
 public final class ContentType {
     public static final int BIBLE = 1;
     public static final int SONG = 2;
+    public static final int ANNOUNCEMENT = 3;
     
     private ContentType(){ }
 }

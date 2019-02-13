@@ -5,6 +5,7 @@
  */
 package Persistence;
 
+import Domain.Announcement;
 import Domain.Verse;
 import Presentation.VerseViewModel;
 import java.sql.PreparedStatement;
@@ -58,5 +59,57 @@ public class Repository {
         } catch(SQLException ex){           
             return null;
         }                        
+    }
+    
+    public List<Announcement> AnnouncementSearch(String key){
+        try {
+            List<Announcement> announces = new ArrayList<>();            
+            String query = "select ID, TITLE, TEXT from Announcement where TITLE LIKE ?";                        
+            PreparedStatement statement = DbConnection.GetInstance().prepareStatement(query);   
+            statement.setString(1, "%"+ key + "%");            
+                                    
+            ResultSet result = statement.executeQuery();            
+            while(result.next()){
+                Announcement announce = new Announcement();
+                announce.setId(result.getInt("ID"));
+                announce.setTitle(result.getString("TITLE"));
+                announce.setContent(result.getString("TEXT"));
+                
+                announces.add(announce);
+            }
+            return announces;
+        } catch(SQLException ex){           
+            return null;
+        }                        
+    }
+    
+    public Announcement SaveAnnouncement(Announcement announce){
+        try {
+            String query = "INSERT INTO ANNOUNCEMENT (TITLE, TEXT) VALUES(?,?)";                        
+            PreparedStatement statement = DbConnection.GetInstance().prepareStatement(query, new String[] { "ID_COLUMN"});   
+            statement.setString(1, announce.getTitle());            
+            statement.setString(2, announce.getContent());
+            statement.executeUpdate();
+            
+            ResultSet rs = statement.getGeneratedKeys();
+            while(rs.next()){
+                announce.setId(rs.getInt("ID_COLUMN"));
+            }
+        }catch(SQLException ex){
+            announce.setId(-1);            
+        }
+        return announce;
+    }
+    
+    public Boolean DeleteAnnouncement(Announcement announce){
+        try {
+            String query = "DELETE FROM ANNOUNCEMENT WHERE ID = ?";                        
+            PreparedStatement statement = DbConnection.GetInstance().prepareStatement(query);   
+            statement.setInt(1, announce.getId());                        
+            statement.executeUpdate();
+            return true;                       
+        }catch(SQLException ex){
+            return false;          
+        }        
     }
 }

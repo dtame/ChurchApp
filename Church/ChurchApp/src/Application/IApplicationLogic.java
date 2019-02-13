@@ -5,6 +5,7 @@
  */
 package Application;
 
+import Domain.Announcement;
 import Domain.Song;
 import Domain.Verse;
 import Presentation.VerseViewModel;
@@ -17,4 +18,7 @@ import java.util.List;
 public interface IApplicationLogic {
     List<Verse> VerseSearch(VerseViewModel model);    
     Song SingleSongSerach(String key);
+    List<Announcement> AnnouncementSearch(String key);
+    Announcement SaveAnnouncement(Announcement announce);
+    Boolean DeleteAnnouncement(Announcement announce);
 }
